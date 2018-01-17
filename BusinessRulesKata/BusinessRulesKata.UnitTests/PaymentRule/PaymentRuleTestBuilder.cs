@@ -1,4 +1,5 @@
 ﻿using BusinessRulesKata.Domain.PaymentRule.Rules;
+using BusinessRulesKata.Domain.PaymentRuleProvider;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,17 +8,9 @@ namespace BusinessRulesKata.UnitTests.PaymentRule
 {
     public class PaymentRuleTestBuilder
     {
-        private List<Type> _allRuleTypes = new List<Type>(){
-                typeof(AnyMembershipRule),
-                typeof(BookRule),
-                typeof(LearningToSkiRule),
-                typeof(MembershipActivationRule),
-                typeof(MembershipUpgradeRule),
-                typeof(PhysicalProductOrBookRule),
-                typeof(PhysicalProductRule),
-                typeof(VideoRule)
-                };
 
+        private List<Type> _allRuleTypes = new PaymentRuleProvider().GetAllRuleTypes();
+       
         private List<Type> _passingTypes = new List<Type>();
         public PaymentRuleTestBuilder AddPassingRule(Type type)
         {
