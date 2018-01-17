@@ -1,4 +1,5 @@
-﻿using BusinessRulesKata.Models;
+﻿using BusinessRulesKata.Domain.BusinessLogicMapper;
+using BusinessRulesKata.Models;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -7,7 +8,7 @@ namespace BusinessRulesKata.Domain.PaymentRuleController
 {
     public interface IPaymentRuleController
     {
-        void RunPostPaymentLogic(Payment payment);
+        void RunPostPaymentLogic(Payment payment, IBusinessLogicMapper mapper);
     }
 
 }

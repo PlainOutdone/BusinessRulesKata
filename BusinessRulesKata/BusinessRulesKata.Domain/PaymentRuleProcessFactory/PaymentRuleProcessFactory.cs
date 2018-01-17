@@ -28,21 +28,16 @@ namespace BusinessRulesKata.Domain.PaymentRuleProcessFactory
             {typeof(PhysicalProductRule),5 },
             {typeof(VideoRule),6},
              {typeof(AnyMembershipRule),7}
-            };
+        };
 
-        private IBusinessLogicMapper _mapper;
-        public PaymentRuleProcessFactory(IBusinessLogicMapper mapper)
-        {
-            _mapper = mapper;
-        }
-        public List<IPostPaymentProcess> GetProcesses(Type passingRuleType)
+        public List<IPostPaymentProcess> GetProcesses(Type passingRuleType, IBusinessLogicMapper mapper)
         {
 
             List<IPostPaymentProcess> _returnList = new List<IPostPaymentProcess>();
             switch (_typeDict[passingRuleType])
             {
                 case 0: //book rule
-                    _returnList.Add(new GeneratePackingSlipProcess(_mapper));
+                    _returnList.Add(new GeneratePackingSlipProcess(mapper));
                     break;
                 case 1: //learning to ski rule
                     break;
@@ -53,7 +48,7 @@ namespace BusinessRulesKata.Domain.PaymentRuleProcessFactory
                 case 4: //physical product or book rule
                     break;
                 case 5: //physical product rule
-                    _returnList.Add(new GeneratePackingSlipProcess(_mapper));
+                    _returnList.Add(new GeneratePackingSlipProcess(mapper));
                     break;
                 case 6: //video rule
                     break;

@@ -14,8 +14,9 @@ namespace BusinessRulesKata.IntegrationTests
     public class PaymentRuleControllerTests
     {
         [Fact]
-        public static void WhenProvidedAPaymentForABookEnsureThePackingSlipProcessIsCalledTwice()
+        public static void WhenProvidedAPaymentForABookEnsureThePackingSlipProcessIsCalledOnceAndGenerateCommisionOnce()
         {
+            Mock < IBusinessLogicMapper > mapper = new Mock<IBusinessLogicMapper>();
             Payment payment = new Payment()
             {
                 Id = 1,
@@ -30,9 +31,8 @@ namespace BusinessRulesKata.IntegrationTests
 
             IPaymentRuleController controller = IoC.Container.GetService<IPaymentRuleController>();
 
-            controller.RunPostPaymentLogic(payment);
-            
-            ///How can i assert this, my plan was to pass in a mock of the mapper and verify calls, but that feels more within the realm of unit tests.
+            controller.RunPostPaymentLogic(payment, mapper.Object);
+            mapper.Verify(m => m.DoSomethingWithGeneratedPackingSlip(It.IsAny<PackingSlip>()),Times.Once);
         }
     }
 }

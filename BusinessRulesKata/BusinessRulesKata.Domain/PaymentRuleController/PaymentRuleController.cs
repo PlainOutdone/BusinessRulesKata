@@ -11,22 +11,20 @@ namespace BusinessRulesKata.Domain.PaymentRuleController
     {
 
         IPaymentRuleProvider _provider;
-        IBusinessLogicMapper _mapper;
         IPaymentRuleProcessFactory _processFactory;
-        public PaymentRuleController(IPaymentRuleProvider provider, IBusinessLogicMapper mapper, IPaymentRuleProcessFactory processFactory)
+        public PaymentRuleController(IPaymentRuleProvider provider, IPaymentRuleProcessFactory processFactory)
         {
             _provider = provider;
-            _mapper = mapper;
             _processFactory = processFactory;
         }
 
-        public void RunPostPaymentLogic(Payment payment)
+        public void RunPostPaymentLogic(Payment payment, IBusinessLogicMapper mapper)
         {
             foreach (IPaymentRule rule in _provider.GetAllRules())
             {
                 if (rule.IsValid(payment))
                 {
-                    foreach (IPostPaymentProcess process in _processFactory.GetProcesses(rule.GetType()))
+                    foreach (IPostPaymentProcess process in _processFactory.GetProcesses(rule.GetType(),mapper))
                     {
                         process.Process(payment);
                     }
